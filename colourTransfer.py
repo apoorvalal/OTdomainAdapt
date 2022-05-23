@@ -25,7 +25,8 @@ def minmax(img):
     return np.clip(img, 0, 1)
 
 # %%
-def colour_transport(source, target, nb = 500, mixed = "output.jpg"):
+def colour_transport(source, target, nb = 500,
+        mixed = "output.jpg"):
     # can make this a command line application
     I1 = plt.imread(source).astype(np.float64)
     I2 = plt.imread(target).astype(np.float64)
@@ -47,11 +48,14 @@ def colour_transport(source, target, nb = 500, mixed = "output.jpg"):
     transp_Xs_emd = ot_emd.transform(Xs=X1)
     I1t = minmax(mat2im(transp_Xs_emd, I1.shape))
 
-    # write
-    plt.figure(dpi = 200)
-    plt.imshow(I1t)
-    plt.axis('off')
-    plt.savefig(mixed, bbox_inches='tight')
+    if mixed: # path can be null to show output
+        # write
+        plt.figure(dpi = 200)
+        plt.imshow(I1t)
+        plt.axis('off')
+        plt.savefig(mixed, bbox_inches='tight')
+    else:
+        return I1t
 
 # %%
 if __name__ == '__main__':
